@@ -116,26 +116,37 @@ const ShaderBackground = () => {
     const resolutionUniformLocation = gl.getUniformLocation(program, "iResolution")
     const timeUniformLocation = gl.getUniformLocation(program, "iTime")
 
-    let startTime = Date.now()
-
+    const startTime = Date.now();
     function render() {
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+      if (!gl) return;
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-      gl.clearColor(0.0, 0.0, 0.0, 1.0)
-      gl.clear(gl.COLOR_BUFFER_BIT)
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
 
-      gl.useProgram(program)
+      gl.useProgram(program);
 
-      gl.enableVertexAttribArray(positionAttributeLocation)
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-      gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0)
+      gl.enableVertexAttribArray(positionAttributeLocation);
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.vertexAttribPointer(
+        positionAttributeLocation,
+        2,
+        gl.FLOAT,
+        false,
+        0,
+        0
+      );
 
-      gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height)
-      gl.uniform1f(timeUniformLocation, (Date.now() - startTime) * 0.001)
+      gl.uniform2f(
+        resolutionUniformLocation,
+        gl.canvas.width,
+        gl.canvas.height
+      );
+      gl.uniform1f(timeUniformLocation, (Date.now() - startTime) * 0.001);
 
-      gl.drawArrays(gl.TRIANGLES, 0, 6)
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-      requestAnimationFrame(render)
+      requestAnimationFrame(render);
     }
 
     render()
